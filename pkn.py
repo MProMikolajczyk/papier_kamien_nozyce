@@ -125,31 +125,31 @@ class player_komputer():
 def mechanika_gry():
     #przypadek remisu
     if p1.wybor_player1==p_komp.koncowy_wybor() or p1.wybor_player1==p2.wybor_player2:
-        print('REMIS')
+        print('\n'+'REMIS')
 
     #przypadek PAPIER I KAMIEŃ
     elif p1.wybor_player1==['PAPIER'] and p2.wybor_player2==['KAMIEŃ'] or \
             p1.wybor_player1==['PAPIER'] and p_komp.koncowy_wybor()==['KAMIEŃ']:
-        print('Wygrywa PLAYER 1')
+        print('\n'+'Wygrywa PLAYER 1')
 
     elif p1.wybor_player1 == ['KAMIEŃ'] and p2.wybor_player2 == ['PAPIER'] or \
             p1.wybor_player1 == ['KAMIEŃ'] and p_komp.koncowy_wybor() == ['PAPIER']:
        if p2.wybor_player2:
-           print('Wygrywa PLAYER 2')
+           print('\n'+'Wygrywa PLAYER 2')
        if p_komp.koncowy_wybor():
-            print('Wygrywa KOMPUTER')
+            print('\n'+'Wygrywa KOMPUTER')
 
    #przypadek PAPIER I NOŻYCE
     elif p1.wybor_player1 == ['PAPIER'] and p2.wybor_player2 == ['NOŻYCE'] or \
             p1.wybor_player1 == ['PAPIER'] and p_komp.koncowy_wybor() == ['NOŻYCE']:
         if p2.wybor_player2:
-            print('Wygrywa PLAYER 2')
+            print('\n'+'Wygrywa PLAYER 2')
         if p_komp.koncowy_wybor():
-            print('Wygrywa KOMPUTER')
+            print('\n'+'Wygrywa KOMPUTER')
 
     elif p1.wybor_player1 == ['NOŻYCE'] and p2.wybor_player2 == ['PAPIER'] or \
             p1.wybor_player1 == ['NOŻYCE'] and p_komp.koncowy_wybor() == ['PAPIER']:
-        print('Wygrywa PLAYER 1')
+        print('\n'+'Wygrywa PLAYER 1')
 
     #przypadek KAMIEŃ I NOŻYCE
     elif p1.wybor_player1 == ['KAMIEŃ'] and p2.wybor_player2 == ['NOŻYCE'] or \
@@ -171,17 +171,25 @@ def gratulacje():
 
 #---------------------------------------Graj ponownie-----------------------------------------------
 def graj_ponownie():
-    print('\n'+'Grasz jeszcze raz ? (T/N)') #Trzeba dodadać jeszcze zmień gracza i żeby się komnatrze początkowe nie pojawiały
-    graj_ponownie_input=input().upper()
+    print('\n' + 'Grasz jeszcze raz ? (T/N/Z)' + '\n\tHelp: '+'\n\tT=Zagraj ponownie, N=Koniec, Z=Zmiana trybu gry' )  # Trzeba dodadać jeszcze zmień gracza i żeby się komnatrze początkowe nie pojawiały
+    graj_ponownie_input = input().upper()
     if graj_ponownie_input=='T':
         p1.powtorzenia_palyer1=0 #restart ilosci powtorzen klasy palyer1 - dotyczy kometarzy
         p2.powtorzenia_palyer2=0 #restart ilosci powtorzen klasy palyer2 - dotyczy kometarzy
         return True
     if graj_ponownie_input=='N':
         return False
+    if graj_ponownie_input=='Z':
+            p1_vs_p2_vs_komp.pierwsze_kometarze()
+            mechanika_gry()
+            while graj_ponownie() == True:
+                p1_vs_p2_vs_komp.wybory()
+                mechanika_gry()
     else:
-        graj_ponownie()
-#---------------------------------------Wybór graczy---------------------------------------------------
+        while graj_ponownie()==True:
+            p1_vs_p2_vs_komp.wybory()
+            mechanika_gry()
+    #---------------------------------------Wybór graczy---------------------------------------------------
 class player1_or_palayer2_or_komputer():
 
     wybor_palyerow=[]
@@ -206,19 +214,14 @@ class player1_or_palayer2_or_komputer():
         if self.wybor_palyerow==['2']:
                                     # wybor palyer1
             p1.powtorny_wybor_palyer1()
-            print(p1.wybor_player1)                                 #zbiory do mechaniki gry
 
                                     # wybor palyer2
             p2.palyer2_wstep_do_gry()
             p2.player2_wariant_wyboru()
-            print(p2.wybor_player2)                                 #zbiory do mechaniki gry
         elif self.wybor_palyerow==['1']:
                                     # wybor palyer1
             p1.powtorny_wybor_palyer1()
-            print(p1.wybor_player1)                                 #zbiory do mechaniki gry
-
             p_komp.wywolanie_wyborow_kompa() # wybor palyer_komp
-            print(p_komp.koncowy_wybor())                           #zbiory do mechaniki gry
         else:
             p1_vs_p2_vs_komp.kometarz_powtarzany_ciagle()
 
@@ -231,7 +234,6 @@ p1_vs_p2_vs_komp=player1_or_palayer2_or_komputer() #zdefiniowana klasa wyboru gr
 
 p1_vs_p2_vs_komp.pierwsze_kometarze() #przywolanie wstępy do gry
 mechanika_gry() #Przywolanie mechaniki gry
-                    #wykonanie funkcji powtarzających się
 while graj_ponownie()==True:
-    p1_vs_p2_vs_komp.pierwsze_kometarze() #przywolanie wstępy do gry
-    mechanika_gry()                        #Przywolanie mechaniki gry
+    p1_vs_p2_vs_komp.wybory() #przywolanie wstępy do gry
+    mechanika_gry()
