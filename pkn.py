@@ -4,6 +4,7 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
 import random
+import time
 #------------------------------zdefiniowanie zbioru----------------------------------------
 
 zbior={1:'PAPIER',2:'KAMIEŃ',3:'NOŻYCE'}
@@ -120,82 +121,127 @@ class player_komputer():
     def koncowy_wybor(self): #bez tego w komentarzu pojawia się kolejny losowy wybor player_komp
         return self.los_koputera
 
+#---------------------------------------Przebieg gry-----------------------------------------------
+class rozgrywka():
+    def __init__(self):
+        self.zwyciestwa_player1=0
+        self.zwyciestwa_player2=0
+        self.zwyciestwa_komp=0
+        self.remis_player1=0
+        self.remis_player2=0
+        self.remis_komp=0
 
-#---------------------Mechanika gry. Zależności pomiędzy wyborami-------------------------------
-def mechanika_gry():
-    #przypadek remisu
-    if p1.wybor_player1==p_komp.koncowy_wybor() or p1.wybor_player1==p2.wybor_player2:
-        print('\n'+'REMIS')
+                            #Mechanika gry. Zależności pomiędzy wyborami
+    def mechanika_gry(self):
+        # przypadek remisu
+        if p1.wybor_player1 == p_komp.koncowy_wybor() or p1.wybor_player1 == p2.wybor_player2:
+            print('\n' + 'REMIS')
+            if p1.wybor_player1 == p_komp.koncowy_wybor():
+                self.remis_player1+=1
+                self.remis_komp+=1
+            if p1.wybor_player1 == p2.wybor_player2:
+                self.remis_player1+=1
+                self.remis_player2+=1
 
-    #przypadek PAPIER I KAMIEŃ
-    elif p1.wybor_player1==['PAPIER'] and p2.wybor_player2==['KAMIEŃ'] or \
-            p1.wybor_player1==['PAPIER'] and p_komp.koncowy_wybor()==['KAMIEŃ']:
-        print('\n'+'Wygrywa PLAYER 1')
+        # przypadek PAPIER I KAMIEŃ
+        elif p1.wybor_player1 == ['PAPIER'] and p2.wybor_player2 == ['KAMIEŃ'] or \
+                                p1.wybor_player1 == ['PAPIER'] and p_komp.koncowy_wybor() == ['KAMIEŃ']:
+            print('\n' + 'Wygrywa PLAYER 1')
+            self.zwyciestwa_player1+=1 #dodanie do zwyciestwa
 
-    elif p1.wybor_player1 == ['KAMIEŃ'] and p2.wybor_player2 == ['PAPIER'] or \
-            p1.wybor_player1 == ['KAMIEŃ'] and p_komp.koncowy_wybor() == ['PAPIER']:
-       if p2.wybor_player2:
-           print('\n'+'Wygrywa PLAYER 2')
-       if p_komp.koncowy_wybor():
-            print('\n'+'Wygrywa KOMPUTER')
+        elif p1.wybor_player1 == ['KAMIEŃ'] and p2.wybor_player2 == ['PAPIER'] or \
+                                p1.wybor_player1 == ['KAMIEŃ'] and p_komp.koncowy_wybor() == ['PAPIER']:
+            if p2.wybor_player2:
+                print('\n' + 'Wygrywa PLAYER 2')
+                self.zwyciestwa_player2 += 1 #dodanie do zwyciestwa
+            if p_komp.koncowy_wybor():
+                print('\n' + 'Wygrywa KOMPUTER')
+                self.zwyciestwa_komp+=1 #dodanie do zwyciestwa
 
-   #przypadek PAPIER I NOŻYCE
-    elif p1.wybor_player1 == ['PAPIER'] and p2.wybor_player2 == ['NOŻYCE'] or \
-            p1.wybor_player1 == ['PAPIER'] and p_komp.koncowy_wybor() == ['NOŻYCE']:
-        if p2.wybor_player2:
-            print('\n'+'Wygrywa PLAYER 2')
-        if p_komp.koncowy_wybor():
-            print('\n'+'Wygrywa KOMPUTER')
+                # przypadek PAPIER I NOŻYCE
+        elif p1.wybor_player1 == ['PAPIER'] and p2.wybor_player2 == ['NOŻYCE'] or \
+                                p1.wybor_player1 == ['PAPIER'] and p_komp.koncowy_wybor() == ['NOŻYCE']:
+            if p2.wybor_player2:
+                print('\n' + 'Wygrywa PLAYER 2')
+                self.zwyciestwa_player2 += 1 #dodanie do zwyciestwa
+            if p_komp.koncowy_wybor():
+                print('\n' + 'Wygrywa KOMPUTER')
+                self.zwyciestwa_komp += 1 #dodanie do zwyciestwa
 
-    elif p1.wybor_player1 == ['NOŻYCE'] and p2.wybor_player2 == ['PAPIER'] or \
-            p1.wybor_player1 == ['NOŻYCE'] and p_komp.koncowy_wybor() == ['PAPIER']:
-        print('\n'+'Wygrywa PLAYER 1')
+        elif p1.wybor_player1 == ['NOŻYCE'] and p2.wybor_player2 == ['PAPIER'] or \
+                                p1.wybor_player1 == ['NOŻYCE'] and p_komp.koncowy_wybor() == ['PAPIER']:
+            print('\n' + 'Wygrywa PLAYER 1')
+            self.zwyciestwa_player1 += 1 #dodanie do zwyciestwa
 
-    #przypadek KAMIEŃ I NOŻYCE
-    elif p1.wybor_player1 == ['KAMIEŃ'] and p2.wybor_player2 == ['NOŻYCE'] or \
-            p1.wybor_player1 == ['KAMIEŃ'] and p_komp.koncowy_wybor() == ['NOŻYCE']:
-        print('Wygrywa PLAYER 1')
+        # przypadek KAMIEŃ I NOŻYCE
+        elif p1.wybor_player1 == ['KAMIEŃ'] and p2.wybor_player2 == ['NOŻYCE'] or \
+                                p1.wybor_player1 == ['KAMIEŃ'] and p_komp.koncowy_wybor() == ['NOŻYCE']:
+            print('Wygrywa PLAYER 1')
+            self.zwyciestwa_player1 += 1 #dodanie do zwyciestwa
 
-    elif p1.wybor_player1 == ['NOŻYCE'] and p2.wybor_player2 == ['KAMIEŃ'] or \
-            p1.wybor_player1 == ['NOŻYCE'] and p_komp.koncowy_wybor() == ['KAMIEŃ']:
-        if p2.wybor_player2:
-            print('Wygrywa PLAYER 2')
-        if p_komp.koncowy_wybor():
-            print('Wygrywa KOMPUTER')
-    p1.wybor_player1.clear()
-    p2.wybor_player2.clear()
-    p_komp.koncowy_wybor().clear()
-#---------------------------------Gratulacje wygranej + licznik wygraych -----------------------------
-def gratulacje():
-    pass
+        elif p1.wybor_player1 == ['NOŻYCE'] and p2.wybor_player2 == ['KAMIEŃ'] or \
+                                p1.wybor_player1 == ['NOŻYCE'] and p_komp.koncowy_wybor() == ['KAMIEŃ']:
+            if p2.wybor_player2:
+                print('Wygrywa PLAYER 2')
+                self.zwyciestwa_player2 += 1 #dodanie do zwyciestwa
+            if p_komp.koncowy_wybor():
+                print('Wygrywa KOMPUTER')
+                self.zwyciestwa_komp += 1 #dodanie do zwyciestwa
 
-#---------------------------------------Graj ponownie-----------------------------------------------
-def graj_ponownie():
-    print('\n' + 'Grasz jeszcze raz ? (T/N/Z)' + '\n\tHelp: '+'\n\tT=Zagraj ponownie, N=Koniec, Z=Zmiana trybu gry' )  # Trzeba dodadać jeszcze zmień gracza i żeby się komnatrze początkowe nie pojawiały
-    graj_ponownie_input = input().upper()
-    if graj_ponownie_input=='T':
-        p1.powtorzenia_palyer1=0 #restart ilosci powtorzen klasy palyer1 - dotyczy kometarzy
-        p2.powtorzenia_palyer2=0 #restart ilosci powtorzen klasy palyer2 - dotyczy kometarzy
-        return True
-    if graj_ponownie_input=='N':
-        return False
-    if graj_ponownie_input=='Z':
-            p1_vs_p2_vs_komp.pierwsze_kometarze()
-            mechanika_gry()
-            while graj_ponownie() == True:
-                p1_vs_p2_vs_komp.wybory()
-                mechanika_gry()
-    else:
-        while graj_ponownie()==True:
+        p1.wybor_player1.clear()
+        p2.wybor_player2.clear()
+        p_komp.koncowy_wybor().clear()
+                                #Graj ponownie
+    def graj_ponownie(self):
+        print('\n' + 'Grasz jeszcze raz ? (T/N/Z)' + '\n\tHelp: '+'\n\tT=Zagraj ponownie, N=Koniec, Z=Zmiana trybu gry' )  # Trzeba dodadać jeszcze zmień gracza i żeby się komnatrze początkowe nie pojawiały
+        graj_ponownie_input = input().upper()
+        if graj_ponownie_input=='T':
+            p1.powtorzenia_palyer1=0 #restart ilosci powtorzen klasy palyer1 - dotyczy kometarzy
+            p2.powtorzenia_palyer2=0 #restart ilosci powtorzen klasy palyer2 - dotyczy kometarzy
+            return True
+        if graj_ponownie_input=='N':
+            self.gratulacje()
+            return False
+        if graj_ponownie_input=='Z':
+                self.wyswietlenie_pierwszych_kometarzy_i_mechaniki()
+                self.wyswietlenie_kontarzy_dalszej_gry_i_mechanika()
+        else:
+            self.wyswietlenie_kontarzy_dalszej_gry_i_mechanika()
+                                #Wstęp do gry
+    def wyswietlenie_pierwszych_kometarzy_i_mechaniki(self):
+        p1_vs_p2_vs_komp.pierwsze_kometarze()
+        self.mechanika_gry()
+        self.licznik_zwyciestw()
+                                #Gra każda następna
+    def wyswietlenie_kontarzy_dalszej_gry_i_mechanika(self):
+        while self.graj_ponownie() == True:
             p1_vs_p2_vs_komp.wybory()
-            mechanika_gry()
-    #---------------------------------------Wybór graczy---------------------------------------------------
+            self.mechanika_gry()
+            self.licznik_zwyciestw()
+                                #licznik ile razy kto wygral
+    def licznik_zwyciestw(self):
+        print('\n'+'Statystki gier :')
+        print("Player1: "+str(self.zwyciestwa_player1) +'\t'+'Remisów: '+str(self.remis_player1))
+        print("Player2: "+str(self.zwyciestwa_player2) + '\t'+'Remisów: '+str(self.remis_player2))
+        print("Komputer: "+str(self.zwyciestwa_komp) + '\t' +'Remisów: '+str(self.remis_komp))
+                                #Podziękowanie dla gracza
+    def gratulacje(self):
+        if self.zwyciestwa_player1 > self.zwyciestwa_komp:
+            print("Gratuluje wygrałeś z komputerem")
+        elif self.zwyciestwa_player1 > self.zwyciestwa_player2:
+            print("Player1 był lepszy od Player2 ")
+        elif self.zwyciestwa_player2 > self.zwyciestwa_player1:
+            print("Player2 był lepszy od Player1 ")
+        else:
+            print("Następnym razem pójdzie ci lepiej")
+        time.sleep(3)
+#---------------------------------------Wybór graczy---------------------------------------------------
 class player1_or_palayer2_or_komputer():
 
     wybor_palyerow=[]
                                     #kometarze przy wyborze graczy
     def pierwsze_kometarze(self):
-        print('WYBIERZ: ')
+        print('\n'+'WYBIERZ: ' + '\n')
         print('Gra przeciwko koputerowi naciśnij: 1')
         print('Gra multiplayer naciśnij: 2')
         return p1_vs_p2_vs_komp.dodawanie_do_listy_wybor_palyerow()
@@ -226,14 +272,13 @@ class player1_or_palayer2_or_komputer():
             p1_vs_p2_vs_komp.kometarz_powtarzany_ciagle()
 
 
-#-----------------------------Wywolanie class + pozostalych komend--------------------------------------
+#-----------------------------Wywolanie class--------------------------------------
 p1 = class_player_one() #zdefiniowana klasa player1
 p2 = class_player_two() #zdefiniowana klasa player2
 p_komp = player_komputer() #zdefiniowana klasa palyer_komp
 p1_vs_p2_vs_komp=player1_or_palayer2_or_komputer() #zdefiniowana klasa wyboru graczy
+wywyowanie_gry=rozgrywka() #zdefiniowanie klasyy rozgrywki
 
-p1_vs_p2_vs_komp.pierwsze_kometarze() #przywolanie wstępy do gry
-mechanika_gry() #Przywolanie mechaniki gry
-while graj_ponownie()==True:
-    p1_vs_p2_vs_komp.wybory() #przywolanie wstępy do gry
-    mechanika_gry()
+#-------------------------------------Wywolanie gry----------------------------------------------
+wywyowanie_gry.wyswietlenie_pierwszych_kometarzy_i_mechaniki()
+wywyowanie_gry.wyswietlenie_kontarzy_dalszej_gry_i_mechanika()
