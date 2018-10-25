@@ -16,6 +16,7 @@ class class_player_one():
     powtorzenia_palyer1 = 0
                                 #komentarz pocztokowy dla player1
     def palyer1_wstep_do_gry(self):
+        przerwa_miedzy_liniami()
         print('PLAYER 1'+'\n'+'Wybierz 1:PAPIER lub 2:KAMIEŃ albo 3:NOŻYCE')
                                 #dodanie do zbioru wyboru player1
     def player1_wariant_wyboru(self):
@@ -23,16 +24,19 @@ class class_player_one():
         if player1=='1':
             z=zbior[1]
             print('Wybrałeś:',z)
+            time.sleep(0.5)
             self.wybor_player1.clear()
             return self.wybor_player1.append(z)
         elif player1=='2':
             z=zbior[2]
             print('Wybrałeś:', z)
+            time.sleep(0.5)
             self.wybor_player1.clear()
             return self.wybor_player1.append(z)
         elif player1=='3':
             z=zbior[3]
             print('Wybrałeś:', z)
+            time.sleep(0.5)
             self.wybor_player1.clear()
             return self.wybor_player1.append(z)
         else:
@@ -64,6 +68,7 @@ class class_player_two():
 
                                  # komentarz pocztokowy dla player2
     def palyer2_wstep_do_gry(self):
+        przerwa_miedzy_liniami()
         print('\n'+'PLAYER 2''\n'+'Wybierz 1:PAPIER lub 2:KAMIEŃ albo 3:NOŻYCE')
                                  # dodanie do zbioru wyboru player2
     def player2_wariant_wyboru(self):
@@ -176,16 +181,16 @@ class rozgrywka():
         # przypadek KAMIEŃ I NOŻYCE
         elif p1.wybor_player1 == ['KAMIEŃ'] and p2.wybor_player2 == ['NOŻYCE'] or \
                                 p1.wybor_player1 == ['KAMIEŃ'] and p_komp.koncowy_wybor() == ['NOŻYCE']:
-            print('Wygrywa PLAYER 1')
+            print('\n' +'Wygrywa PLAYER 1')
             self.zwyciestwa_player1 += 1 #dodanie do zwyciestwa
 
         elif p1.wybor_player1 == ['NOŻYCE'] and p2.wybor_player2 == ['KAMIEŃ'] or \
                                 p1.wybor_player1 == ['NOŻYCE'] and p_komp.koncowy_wybor() == ['KAMIEŃ']:
             if p2.wybor_player2:
-                print('Wygrywa PLAYER 2')
+                print('\n' +'Wygrywa PLAYER 2')
                 self.zwyciestwa_player2 += 1 #dodanie do zwyciestwa
             if p_komp.koncowy_wybor():
-                print('Wygrywa KOMPUTER')
+                print('\n' +'Wygrywa KOMPUTER')
                 self.zwyciestwa_komp += 1 #dodanie do zwyciestwa
 
         p1.wybor_player1.clear()
@@ -226,14 +231,17 @@ class rozgrywka():
         print("Komputer: "+str(self.zwyciestwa_komp) + '\t' +'Remisów: '+str(self.remis_komp))
                                 #Podziękowanie dla gracza
     def gratulacje(self):
-        if self.zwyciestwa_player1 > self.zwyciestwa_komp:
-            print("Gratuluje wygrałeś z komputerem")
-        elif self.zwyciestwa_player1 > self.zwyciestwa_player2:
-            print("Player1 był lepszy od Player2 ")
-        elif self.zwyciestwa_player2 > self.zwyciestwa_player1:
-            print("Player2 był lepszy od Player1 ")
-        else:
-            print("Następnym razem pójdzie ci lepiej")
+        if p1_vs_p2_vs_komp.wybor_palyerow==['1']:
+            if self.zwyciestwa_player1 > self.zwyciestwa_komp:
+                print("Gratuluje wygrałeś z komputerem")
+            else:
+                print("Następnym razem pójdzie ci lepiej")
+
+        if p1_vs_p2_vs_komp.wybor_palyerow==['2']:
+            if self.zwyciestwa_player1 > self.zwyciestwa_player2:
+                print("Player1 był lepszy od Player2 ")
+            if self.zwyciestwa_player2 > self.zwyciestwa_player1:
+                print("Player2 był lepszy od Player1 ")
         time.sleep(3)
 #---------------------------------------Wybór graczy---------------------------------------------------
 class player1_or_palayer2_or_komputer():
@@ -270,7 +278,10 @@ class player1_or_palayer2_or_komputer():
             p_komp.wywolanie_wyborow_kompa() # wybor palyer_komp
         else:
             p1_vs_p2_vs_komp.kometarz_powtarzany_ciagle()
-
+#-------------------------Fukcja do robienia przerwy--------------------------------
+def przerwa_miedzy_liniami():
+    time.sleep(0.35)
+    print ('\n'*100)
 
 #-----------------------------Wywolanie class--------------------------------------
 p1 = class_player_one() #zdefiniowana klasa player1
